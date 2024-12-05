@@ -23,7 +23,7 @@ app.use(csurf({ cookie: true }))
 //conexion a la bd
 try {
     await db.authenticate();
-    db.sync()
+    db.sync({alter:true})
     console.log('Conexion a la bd exitosa!!!')
 } catch (error) {
     console.log(error)

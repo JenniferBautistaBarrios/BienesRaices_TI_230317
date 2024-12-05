@@ -1,11 +1,11 @@
-header.bg-indigo-600.p-4 
+header.bg-indigo-600.p-4.nav-bar 
     .container.mx-auto.flex.justify-between.items-center 
-        h1.text-2xl.text-white.font-extrabold.text-center Bienes 
-            span.font-normal Raíces
+        h1.text-2xl.my-10.font-extrabold.text-center.text-murrey-700 Bienes
+            span.font-normal Raices
 
-        nav(class="my-5 text-sm md:flex md:items-center md:gap-3 font-bold text-white hidden") 
-            a(href="/mis-propiedades") Mis propiedades 
-            a(href="") Mi perfil
+        nav(class="my-5 text-sm md:flex md:items-center md:gap-5 font-extrabold  text-murrey-600 hidden") 
+            a(href="/mis-propiedades" ) Mis propiedades 
+            a(href="" class="mx-5") Mi perfil
             form(action="/auth/cerrar-sesion" method="POST")  
                 input(type="hidden" name="_csrf" value= csrfToken)
-                input(type="submit" class="bg-indigo-800 py-2 px-10 rounded-lg" value="Cerrar Sesión")    
+                input(type="submit" class="bg-indigo-800 py-2 px-10 rounded-lg button" value="Cerrar Sesión")    
