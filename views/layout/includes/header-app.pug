@@ -1,26 +1,34 @@
-header.bg-indigo-600.p-4 
+header.bg-murrey-400.p-4.nav-bar 
     .container.mx-auto.flex.justify-between.items-center 
         a(href="/")
-            h1.text-2xl.text-white.font-extrabold.text-center Bienes 
-                span.font-normal Raíces
+            h1.text-2xl.my-10.font-extrabold.text-center.text-murrey-700 Bienes
+                span.font-normal Raices
 
-        nav(class="my-5 text-sm md:flex md:items-center md:gap-3 font-bold text-white hidden") 
+        nav(class="my-5 text-sm md:flex md:items-center md:gap-3 font-bold text-murrey-600 hidden") 
             a(href="/auth/registro") Crear cuenta 
             a(href="/auth/login") Iniciar Sesión
 
 div(class="bg-indigo-700 py-5 hidden lg:block")
     div(class="container mx-auto flex justify-between")
         nav(class="flex gap-4 items-center") 
-            a(href="/categorias/1" class="text-sm font-bold uppercase text-white") Casas
-            a(href="/categorias/2" class="text-sm font-bold uppercase text-white") Departamentos
-            a(href="/categorias/3" class="text-sm font-bold uppercase text-white") Bodegas
-            a(href="/categorias/4" class="text-sm font-bold uppercase text-white") Terrenos
-            a(href="/categorias/5" class="text-sm font-bold uppercase text-white") Cabañas
+            a(href="/categorias/1" class="text-sm font-bold uppercase text-murrey-600") Casas
+            a(href="/categorias/2" class="text-sm font-bold uppercase text-murrey-600") Departamentos
+            a(href="/categorias/3" class="text-sm font-bold uppercase text-murrey-600") Bodegas
+            a(href="/categorias/4" class="text-sm font-bold uppercase text-murrey-600") Terrenos
+            a(href="/categorias/5" class="text-sm font-bold uppercase text-murrey-600") Cabañas
 
         form(action="/buscador" method="POST" class="flex gap-3 items-center") 
             input(type="hidden" name="_csrf" value= csrfToken)
-            label(for="termino" class="text-sm uppercase font-bold text-white") Busqueda 
-            
-            input(type="text" id="termino" name="termino" placeholder="Buscar propiedades" class="p-2 rounded-lg shadow text-sm")
-
-            input(type="submit" class="bg-indigo-800 hover:bg-indigo-400 rounded-lg text-white uppercase font-bold p-2 cursor-pointer text-sm" value="Buscar" )
+            <div class="flex items-center justify-center p-5">
+            <div class="rounded-lg bg-murrey-100 p-5">
+                <div class="flex">
+                <div class="flex w-10 items-center justify-center rounded-tl-lg rounded-bl-lg border-r border-murrey-400 bg-white p-5">
+                    <svg viewBox="0 0 20 20" aria-hidden="true" class="pointer-events-none absolute w-5 fill-murrey-500 transition">
+                    <path d="M16.72 17.78a.75.75 0 1 0 1.06-1.06l-1.06 1.06ZM9 14.5A5.5 5.5 0 0 1 3.5 9H2a7 7 0 0 0 7 7v-1.5ZM3.5 9A5.5 5.5 0 0 1 9 3.5V2a7 7 0 0 0-7 7h1.5ZM9 3.5A5.5 5.5 0 0 1 14.5 9H16a7 7 0 0 0-7-7v1.5Zm3.89 10.45 3.83 3.83 1.06-1.06-3.83-3.83-1.06 1.06ZM14.5 9a5.48 5.48 0 0 1-1.61 3.89l1.06 1.06A6.98 6.98 0 0 0 16 9h-1.5Zm-1.61 3.89A5.48 5.48 0 0 1 9 14.5V16a6.98 6.98 0 0 0 4.95-2.05l-1.06-1.06Z"></path>
+                    </svg>
+                </div>
+                <input type="text" id="termino" name="termino" class="w-full max-w-[160px] bg-white pl-2 text-base font-semibold outline-0" placeholder="Buscar Propiedades">
+                <input type="submit" value="Buscar" class="bg-murrey-500 p-2 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-murrey-800 transition-colors">
+                </div>
+            </div>
+            </div>

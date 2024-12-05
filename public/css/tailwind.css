@@ -2,6 +2,204 @@
 @tailwind components;
 @tailwind utilities;
 
-.leaflet-container a {
-    color: #FFF;
+.property-container {
+  border-radius: 12px;
+  padding: 5px;
+  color: #000000;
+  max-width: 400px; 
+  margin: auto;
+}
+.property-container a {
+  background-color: #ca90a9;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  display: block;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.card {
+  padding: 50px;
+  background: #efdee5; /* Fondo más claro */
+  border-radius: 20px;
+  box-shadow: 0px 10px 20px rgba(236, 5, 142, 0.2); /* Suave sombra Cerise */
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 15px 30px rgba(236, 5, 142, 0.4); /* Más intensidad al pasar el ratón */
+}
+
+.nav-bar {
+  border-radius: 10px;
+  background: #d4a5b9; /* Suave color Murrey */
+  box-shadow: 5px 5px 15px rgba(244, 103, 186, 0.2), -5px -5px 15px rgba(255, 255, 255, 0.5);
+}
+
+.button {
+  color: #090909;
+  padding: 0.7em 1.7em;
+  font-size: 18px;
+  border-radius: 0.5em;
+  background: #e8e8e8;
+  cursor: pointer;
+  border: 1px solid #e8e8e8;
+  transition: all 0.3s;
+  box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+}
+
+.button:hover {
+  border: 1px solid white;
+}
+
+.button:active {
+  box-shadow: 4px 4px 12px #c5c5c5, -4px -4px 12px #ffffff;
+}
+
+
+.contenedor {
+  background: linear-gradient(135deg, #efdee5, #e0bfcd); /* Suave degradado */
+  border: 1px solid #efdee5;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(244, 103, 186, 0.5); 
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.contenedor:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 25px rgba(244, 103, 186, 0.8); 
+}
+
+  
+.animate__slow {
+    --animate-duration: var(--animate-duration-slow);
+}
+.animate__faster {
+    --animate-duration: var(--animate-duration-fast);
+}
+
+
+
+.button-delete {
+  height: 50px;
+  background-color: #eee;
+  border: none;
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 1rem;
+  color: lightcoral;
+  box-shadow: 0 0.4rem #dfd9d9;
+  cursor: pointer;
+ }
+ 
+ .button-delete:active {
+  color: white;
+  box-shadow: 0 0.2rem #dfd9d9;
+  transform: translateY(0.2rem);
+ }
+ 
+ .button-delete:hover:not(:disabled) {
+  background: lightcoral;
+  color: white;
+  text-shadow: 0 0.1rem #bcb4b4;
+ }
+ 
+ .button-delete:disabled {
+  cursor: auto;
+  color: rgb(255, 255, 255);
+ }
+
+ .button-edit {
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  height: 50px;
+  background-color: #dceefb;
+  border: none;
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 1rem;
+  color: #3182ce; 
+  box-shadow: 0 0.4rem #b3d8f7;
+  cursor: pointer;
+}
+
+.button-edit:active {
+  color: white;
+  box-shadow: 0 0.2rem #b3d8f7;
+  transform: translateY(0.2rem);
+}
+
+.button-edit:hover:not(:disabled) {
+  background: #3182ce;
+  color: white;
+  text-shadow: 0 0.1rem #a3c9e7;
+}
+
+.button-edit:disabled {
+  cursor: auto;
+  color: rgb(255, 255, 255);
+}
+
+
+.button-confirm {
+  height: 50px;
+  background-color: #e6f9ed; /* Verde claro */
+  border: none;
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 1rem;
+  color: #38a169; /* Verde oscuro */
+  box-shadow: 0 0.4rem #c3ebd1;
+  cursor: pointer;
+}
+
+.button-confirm:active {
+  color: white;
+  box-shadow: 0 0.2rem #c3ebd1;
+  transform: translateY(0.2rem);
+}
+
+.button-confirm:hover:not(:disabled) {
+  background: #38a169;
+  color: white;
+  text-shadow: 0 0.1rem #b1e3c2;
+}
+
+.button-confirm:disabled {
+  cursor: auto;
+  color: rgb(255, 255, 255);
+}
+
+
+.button-warning {
+  height: 50px;
+  background-color: #fffbea; /* Amarillo claro */
+  border: none;
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 1rem;
+  color: #d69e2e; /* Amarillo oscuro */
+  box-shadow: 0 0.4rem #f6e3b5;
+  cursor: pointer;
+}
+
+.button-warning:active {
+  color: white;
+  box-shadow: 0 0.2rem #f6e3b5;
+  transform: translateY(0.2rem);
+}
+
+.button-warning:hover:not(:disabled) {
+  background: #d69e2e;
+  color: white;
+  text-shadow: 0 0.1rem #e9d8a8;
+}
+
+.button-warning:disabled {
+  cursor: auto;
+  color: rgb(255, 255, 255);
 }
