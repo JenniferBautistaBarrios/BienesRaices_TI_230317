@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize'
+import { BOOLEAN, DataTypes } from 'sequelize'
 import db from '../config/db.js'
 
 const Propiedad = db.define('propiedades', {
@@ -16,6 +16,8 @@ const Propiedad = db.define('propiedades', {
         type: DataTypes.TEXT,
         allowNull: false
     },
+    renta: DataTypes.BOOLEAN,
+    venta: DataTypes.BOOLEAN,
     habitaciones: {
         type: DataTypes.INTEGER,
         allowNull: false
