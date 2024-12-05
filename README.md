@@ -8,7 +8,7 @@ Proyecto Integrador de la Asignatura de Aplicaciones Web Orientada a Servicios (
 |-----------|-------------|-------------------------|
 | 01        | Cargar el código base de la Aplicación de BienesRaíces en un Nuevo Repositorio Privado. | ✅Finalizada |
 | 02        | Implementar su paleta de colores, tipografías , y diseño de componentes. | ✅Finalizada |
-| 03        | Agregar la Categoría "Establecimientos" para poder rentar o vender espacios para negocios. | ⭐Activa|
+| 03        | Agregar la Categoría "Establecimientos" para poder rentar o vender espacios para negocios. | ✅Finalizada |
 | 04        | Cambiar la posición inicial del mapa a su LAT y LNG de su CASA (estudiante). | ⭐Activa |
 | 05        | Agrega la funcionalidad de guardar una imagen de perfil al momento de crear su cuenta , también incluir la validación de cuentas para mayores de edad. | ⭐Activa |
 | 06        | En la tarjetas (CARDS) de las propiedades incluir el Avatar del Vendedor y su alias de usuario (*) | ⭐Activa |
