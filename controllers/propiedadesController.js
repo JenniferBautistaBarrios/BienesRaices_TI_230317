@@ -1,6 +1,6 @@
 import { validationResult } from 'express-validator'
 import { Precio, Categoria, Propiedad, Mensaje, Usuario } from '../models/index.js'
-import { unlink } from 'node:fs/promises'
+import { unlink } from 'fs/promises'
 import { esVendedor, formatearFecha } from '../helpers/index.js'
 
 const admin = async (req, res) => {
@@ -98,13 +98,16 @@ const guardar = async (req, res) => {
     }
 
     //Crear registro
-    const { titulo, descripcion, habitaciones, estacionamiento, wc, calle, lat, lng, precio: precioID, categoria: categoriaID } = req.body
-
+    const { titulo, descripcion, habitaciones, estacionamiento, wc, calle, lat, lng, precio: precioID, categoria: categoriaID, renta = false, venta = false } = req.body
+    const seRenta = renta === 'true';
+    const seVende = venta === 'true'
     const { id: usuarioID } = req.usuario
     try {
         const propiedadGuardada = await Propiedad.create({
             titulo,
             descripcion,
+            renta: seRenta,
+            venta: seVende,
             habitaciones,
             estacionamiento,
             wc,
@@ -265,12 +268,14 @@ const guardarCambios = async (req, res) => {
     //Rescribir el objeto y actualizar la bd
 
     try {
-        const { titulo, descripcion, habitaciones, estacionamiento, wc, calle, lat, lng, precio: precioID, categoria: categoriaID } = req.body
+        const { titulo, descripcion, habitaciones, estacionamiento, wc, calle, lat, lng, precio: precioID, categoria: categoriaID , renta = false,  venta = false} = req.body
 
         propiedad.set({
             titulo,
             descripcion,
             habitaciones,
+            venta,
+            renta,
             estacionamiento,
             wc,
             calle,
