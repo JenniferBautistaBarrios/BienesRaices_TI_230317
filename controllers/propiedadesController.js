@@ -382,12 +382,7 @@ const enviarMensaje = async (req, res) => {
     const propiedad = await Propiedad.findByPk(id, {
         include: [
             { model: Precio, as: 'precio' },
-            { model: Categoria, as: 'categoria' },
-            {
-                model: Usuario, 
-                attributes: ['nombre', 'correo', 'imagen'], 
-                as: 'usuario'
-            }
+            { model: Categoria, as: 'categoria' }
         ]
     })
 

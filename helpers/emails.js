@@ -145,7 +145,7 @@ const emailOlvidePassword = async (datos) => {
           </p>
           
           <div style="text-align: center; margin: 20px 0;">
-            <a href="${process.env.BACKEND_URL}:${process.env.PORT ?? 3000}/auth/recuperarCuenta/${token}" 
+            <a href="${process.env.BACKEND_URL}:${process.env.PORT ?? 3001}/auth/recuperarCuenta/${token}" 
               style="
                 display: inline-block;
                 padding: 15px 30px;
@@ -175,7 +175,7 @@ const emailOlvidePassword = async (datos) => {
             <p style="font-size: 14px; color: #555; margin: 10px 0;">
               Encuentra tu hogar ideal con nosotros. Contamos con las mejores opciones en bienes raíces.
             </p>
-            <a href="${process.env.BACKEND_URL}:${process.env.PORT ?? 3000}/auth/inicioSesion" 
+            <a href="${process.env.BACKEND_URL}:${process.env.PORT ?? 3001}/auth/inicioSesion" 
               style="
                 color: #b07c8e;
                 text-decoration: none;

@@ -25,6 +25,12 @@ router.post('/olvide-password', resetPassword);
 router.get('/olvide-password/:token', comprobarToken);
 router.post('/olvide-password/:token', nuevoPassword);
 
+router.get('/message', async (req, res) => {
+    res.render('templates/message', {
+        pagina: 'Cuenta creada correctamente',
+        mensaje: 'Hemos enviado un email de confirmación, presiona en el enlace.',
+    })
+})
 
 
 export default router

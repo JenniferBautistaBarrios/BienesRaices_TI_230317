@@ -10,7 +10,7 @@ block contenido
         h2.text-center.font-extrabold.my-10.text-2xl= pagina
 
         div(class="bg-white shadow py-8 px-4 rounded mx-auto max-w-4xl my-10 md:px-10 card")
-            form(id="imagen" class="dropzone border-dashed border-4 border-murrey-500 w-full min:h-96 h-auto rounded flex-col justify-center items-center text-murrey-500 font-bold" method="POST" action=`/auth/registro/${usuario.id}`)
+            form(id="imagen" class="dropzone border-dashed border-4 border-murrey-500 w-full min:h-96 h-auto rounded flex-col justify-center items-center text-murrey-500 font-bold" method="POST" action=`/auth/registro/${usuario.id}` data-context="registro")
                 input(type="hidden" name="_csrf" value= csrfToken)
                 
 
