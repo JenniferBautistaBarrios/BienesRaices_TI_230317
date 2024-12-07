@@ -556,6 +556,9 @@ video {
 .mb-2 {
   margin-bottom: 0.5rem;
 }
+.ml-3 {
+  margin-left: 0.75rem;
+}
 .mr-4 {
   margin-right: 1rem;
 }
@@ -1251,39 +1254,54 @@ video {
   align-items: center;
 }
 
+.top-container{
+	display: flex;
+	align-items: center;
+}
+
+.profile-image{
+	border-radius: 10px;
+	border: 2px solid rgba(236, 5, 142, 0.4);
+}
+.name{
+	font-size: 20px;
+	font-weight: bold;
+	color: #272727;
+	position: relative;
+	top: 8px;
+}
+.mail{
+	font-size: 18px;
+	color: rgb(255, 255, 255);
+	position: relative;
+	top: 2px;
+}
 .hover\:bg-murrey-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(160 60 103 / var(--tw-bg-opacity));
 }
-
 .hover\:bg-murrey-800:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(152 44 90 / var(--tw-bg-opacity));
 }
-
 .hover\:bg-murrey-900:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(140 20 72 / var(--tw-bg-opacity));
 }
-
 .hover\:text-cerise-800:hover {
   --tw-text-opacity: 1;
   color: rgb(238 35 156 / var(--tw-text-opacity));
 }
-
 .hover\:text-murrey-900:hover {
   --tw-text-opacity: 1;
   color: rgb(140 20 72 / var(--tw-text-opacity));
 }
-
 .hover\:underline:hover {
   text-decoration-line: underline;
 }
-
 .hover\:decoration-murrey-900:hover {
   text-decoration-color: #8c1448;
 }
-
 @media (min-width: 640px) {
 
   .sm\:block {
@@ -1331,7 +1349,6 @@ video {
     padding-right: 1.5rem;
   }
 }
-
 @media (min-width: 768px) {
 
   .md\:flex {
@@ -1410,7 +1427,6 @@ video {
     padding-bottom: 0.25rem;
   }
 }
-
 @media (min-width: 1024px) {
 
   .lg\:block {
@@ -1429,7 +1445,6 @@ video {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
-
 @media (min-width: 1536px) {
 
   .\32xl\:flex-row {
