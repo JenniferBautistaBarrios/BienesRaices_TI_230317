@@ -89,6 +89,7 @@ const registrar = async (req, res) => {
     console.log(req.body)
 
     //validación
+    await check('alias').notEmpty().withMessage('El alias no puede ir vacio').run(req)
     await check('nombre').notEmpty().withMessage('El nombre no puede ir vacio').run(req)
     await check('email').isEmail().withMessage('Eso no parece un email').run(req)
     await check('password').isLength({ min: 6 }).withMessage('El password debe ser de almenos 6 caracteres').run(req)
@@ -124,6 +125,7 @@ const registrar = async (req, res) => {
             csrfToken: req.csrfToken(),
             errores: resultado.array(),
             usuario: {
+                alias: req.body.alias,
                 nombre: req.body.nombre,
                 email: req.body.email
             }
@@ -132,7 +134,7 @@ const registrar = async (req, res) => {
 
     //Extraer los datos
 
-    const { nombre, email, password, imagen='',  fecha_nacimiento: fechaNacimiento } = req.body
+    const {alias, nombre, email, password, imagen='',  fecha_nacimiento: fechaNacimiento } = req.body
 
     //verificar que el usuario no este duplicado
     const existeUsuario = await Usuario.findOne({ where: { email } })
@@ -142,6 +144,7 @@ const registrar = async (req, res) => {
             csrfToken: req.csrfToken(),
             errores: [{ msg: 'El usuario ya esta Registrado' }],
             usuario: {
+                alias: req.body.alias,
                 nombre: req.body.nombre,
                 email: req.body.email
             }
@@ -150,6 +153,7 @@ const registrar = async (req, res) => {
 
     //Almacenar un usuario
     const usuario = await Usuario.create({
+        alias,
         nombre,
         email,
         password,
@@ -198,52 +202,58 @@ const agregarImagen = async (req, res) => {
 }
 
 const almacenarImagen = async (req, res) => {
+    const { id } = req.params;
 
-    const { id } = req.params
-    // Validar que la propiedad exista
-
-    const usuario = await Usuario.findByPk(id)
+    // Validar que el usuario exista
+    const usuario = await Usuario.findByPk(id);
 
     if (!usuario) {
         return res.render('auth/registro', {
             pagina: 'Crear cuenta',
             csrfToken: req.csrfToken(),
-            errores: [{ msg: 'El usuario no esta Registrado' }],
+            errores: [{ msg: 'El usuario no está registrado' }],
             usuario: {
                 nombre: req.body.nombre,
-                email: req.body.email
-            }
-        })
+                email: req.body.email,
+            },
+        });
     }
 
     try {
-        console.log(req.file)
-        // Almacenar propiedad y publicarla
+        console.log(req.file);
 
-        usuario.imagen = req.file.filename
+        // Almacenar la imagen del usuario
+        usuario.imagen = req.file.filename;
         await usuario.save();
 
-        // Si todo es exitoso, pasar al siguiente middleware o función
-        res.render('templates/message', {
-            pagina: 'Cuenta creada correctamente',
-            mensaje: 'Hemos enviado un email de confirmación, presiona en el enlace'
-        })
+        // Enviar el correo de confirmación
+        emailRegistro({
+            nombre: usuario.nombre,
+            email: usuario.email,
+            token: usuario.token,
+        });
 
+        // Mostrar la página de mensaje de confirmación
+        return res.render('templates/message', {
+            pagina: 'Cuenta creada correctamente',
+            mensaje: 'Hemos enviado un email de confirmación, presiona en el enlace.',
+        });
     } catch (error) {
         console.log(error);
-        // Manejar errores aquí
-        // Puedes redirigir a una página de error o hacer algo más según tus necesidades
+
+        // Manejar errores en la subida de la imagen
         return res.render('auth/registro', {
             pagina: 'Crear cuenta',
             csrfToken: req.csrfToken(),
-            errores: [{ msg: 'La subida de Imaen fallo, intene de nuevo' }],
+            errores: [{ msg: 'La subida de la imagen falló, intenta de nuevo.' }],
             usuario: {
                 nombre: req.body.nombre,
-                email: req.body.email
-            }
-        })
+                email: req.body.email,
+            },
+        });
     }
-}
+};
+
 
 
 //Funcion que comprueba una cuenta
