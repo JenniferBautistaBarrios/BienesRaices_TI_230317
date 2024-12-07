@@ -351,7 +351,6 @@ const cambiarEstado = async (req, res) => {
 const mostrarPropiedad = async (req, res) => {
 
     const { id } = req.params
-
     //Comprobar que la propieadad exista
 
     const propiedad = await Propiedad.findByPk(id, {
@@ -383,7 +382,12 @@ const enviarMensaje = async (req, res) => {
     const propiedad = await Propiedad.findByPk(id, {
         include: [
             { model: Precio, as: 'precio' },
-            { model: Categoria, as: 'categoria' }
+            { model: Categoria, as: 'categoria' },
+            {
+                model: Usuario, 
+                attributes: ['nombre', 'correo', 'imagen'], 
+                as: 'usuario'
+            }
         ]
     })
 

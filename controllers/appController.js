@@ -1,4 +1,4 @@
-import { Precio, Categoria, Propiedad } from "../models/index.js"
+import { Precio, Categoria, Propiedad, Usuario } from "../models/index.js"
 import { Sequelize } from 'sequelize'
 
 const inicio = async (req, res) => {
@@ -12,10 +12,8 @@ const inicio = async (req, res) => {
                 categoriaID: 1
             },
             include: [
-                {
-                    model: Precio,
-                    as: 'precio'
-                }
+                { model: Precio, as: 'precio'},
+                { model: Usuario }
             ],
             order: [
                 ['createdAt', 'DESC']
@@ -27,10 +25,8 @@ const inicio = async (req, res) => {
                 categoriaID: 2
             },
             include: [
-                {
-                    model: Precio,
-                    as: 'precio'
-                }
+                { model: Precio,as: 'precio'},
+                { model: Usuario }
             ],
             order: [
                 ['createdAt', 'DESC']
@@ -67,7 +63,8 @@ const categoria = async (req, res) => {
             categoriaID: id
         },
         include: [
-            {model: Precio, as: 'precio'}
+            {model: Precio, as: 'precio'},
+            {model: Usuario}
         ]
     })
 
@@ -103,7 +100,8 @@ const buscador = async (req, res) => {
             }
         },
         include: [
-            {model: Precio , as: 'precio'}
+            {model: Precio , as: 'precio'},
+            {model: Usuario}
         ]
     })
 

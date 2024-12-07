@@ -4,6 +4,10 @@ import db from '../config/db.js'
 
 
 const Usuario = db.define('usuarios', {
+        alias: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         nombre: {
             type: DataTypes.STRING,
             allowNull: false

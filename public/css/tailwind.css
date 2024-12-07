@@ -257,3 +257,26 @@
 .items-center {
   align-items: center;
 }
+
+.top-container{
+	display: flex;
+	align-items: center;
+}
+
+.profile-image{
+	border-radius: 10px;
+	border: 2px solid rgba(236, 5, 142, 0.4);
+}
+.name{
+	font-size: 20px;
+	font-weight: bold;
+	color: #272727;
+	position: relative;
+	top: 8px;
+}
+.mail{
+	font-size: 18px;
+	color: rgb(255, 255, 255);
+	position: relative;
+	top: 2px;
+}
