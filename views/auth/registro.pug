@@ -31,6 +31,10 @@ block contenido
                         label.block.text-sm.uppercase.text-murrey-700.mb-2.font-bold(for="repetir_password") Repetir password
                         input#repetir_password.w-full.px-3.py-4.border.border-murrey-200.rounded-md(placeholder="Repite tu password" type="password" name="repetir_password")         
                     
+                    div 
+                        label.block.text-sm.uppercase.text-murrey-700.mb-2.font-bold(for="fecha_nacimiento") Fecha de Nacimiento
+                        input#fecha_nacimiento.w-full.px-3.py-4.border.border-murrey-200.rounded-md(type="date" name="fecha_nacimiento")         
+                    
                     div.flex.items-center.justify-between 
                         a.text-gray-500.text-xs(href="/auth/login"  class="hover:text-murrey-900 hover:decoration-murrey-900 hover:underline") ¿Ya tienes cuenta? Inicia Sesión
                         a.text-gray-500.text-xs(href="/auth/olvide-password"  class="hover:text-murrey-900 hover:decoration-murrey-900 hover:underline") Olvide mi Password 

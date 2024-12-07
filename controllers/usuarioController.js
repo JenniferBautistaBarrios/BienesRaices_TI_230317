@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import Usuario from '../models/Usuario.js'
 import { generateID, generarJWT } from '../helpers/tokens.js'
 import { emailRegistro, emailOlvidePassword } from '../helpers/emails.js'
+import moment from 'moment';
 
 const formularioLogin = (req, res) => {
     res.render('auth/login', {
@@ -92,6 +93,26 @@ const registrar = async (req, res) => {
     await check('email').isEmail().withMessage('Eso no parece un email').run(req)
     await check('password').isLength({ min: 6 }).withMessage('El password debe ser de almenos 6 caracteres').run(req)
     await check('repetir_password').equals(req.body.password).withMessage('Los password no coinciden').run(req)
+    await check('fecha_nacimiento')
+    .notEmpty().withMessage("La fecha no puede estar vacía")
+    .custom((value) => {
+        const birthDate = moment(value, 'YYYY-MM-DD');
+        
+        // Verifica si la fecha es válida
+        if (!birthDate.isValid()) {
+        throw new Error("La fecha no es válida");
+        }
+
+        // Compara la edad
+        const today = moment();
+        const age = today.diff(birthDate, 'years');
+        if (age < 18) {
+        throw new Error("Debes tener al menos 18 años");
+        }
+
+        return true;  // Si pasa la validación
+    })
+  .run(req);
 
     let resultado = validationResult(req)
 
@@ -111,7 +132,7 @@ const registrar = async (req, res) => {
 
     //Extraer los datos
 
-    const { nombre, email, password } = req.body
+    const { nombre, email, password, imagen='',  fecha_nacimiento: fechaNacimiento } = req.body
 
     //verificar que el usuario no este duplicado
     const existeUsuario = await Usuario.findOne({ where: { email } })
@@ -132,23 +153,98 @@ const registrar = async (req, res) => {
         nombre,
         email,
         password,
+        imagen,
+        fechaNacimiento,
         token: generateID()
     })
 
-    //Enviar email de confirmacion
-    emailRegistro({
-        nombre: usuario.nombre,
-        email: usuario.email,
-        token: usuario.token
-    })
 
 
     //Mostrar mensaje de confirmación
-    res.render('templates/message', {
-        pagina: 'Cuenta creada correctamente',
-        mensaje: 'Hemos enviado un email de confirmación, presiona en el enlace'
+    res.render('auth/agregar-imagen', {
+        pagina: `Agregar Imagen: ${usuario.nombre}`,
+        csrfToken: req.csrfToken(),
+        usuario
     })
+    
 }
+
+const agregarImagen = async (req, res) => {
+
+    const { id } = req.params
+    //Validar que la propiedad exista
+
+    const usuario = await Usuario.findByPk(id)
+
+    if (!usuario) {
+        return res.render('auth/registro', {
+            pagina: 'Crear cuenta',
+            csrfToken: req.csrfToken(),
+            errores: [{ msg: 'El usuario no esta Registrado' }],
+            usuario: {
+                nombre: req.body.nombre,
+                email: req.body.email
+            }
+        })
+    }
+ 
+        //Enviar email de confirmacion
+        emailRegistro({
+            nombre: usuario.nombre,
+            email: usuario.email,
+            token: usuario.token
+        })
+    
+}
+
+const almacenarImagen = async (req, res) => {
+
+    const { id } = req.params
+    // Validar que la propiedad exista
+
+    const usuario = await Usuario.findByPk(id)
+
+    if (!usuario) {
+        return res.render('auth/registro', {
+            pagina: 'Crear cuenta',
+            csrfToken: req.csrfToken(),
+            errores: [{ msg: 'El usuario no esta Registrado' }],
+            usuario: {
+                nombre: req.body.nombre,
+                email: req.body.email
+            }
+        })
+    }
+
+    try {
+        console.log(req.file)
+        // Almacenar propiedad y publicarla
+
+        usuario.imagen = req.file.filename
+        await usuario.save();
+
+        // Si todo es exitoso, pasar al siguiente middleware o función
+        res.render('templates/message', {
+            pagina: 'Cuenta creada correctamente',
+            mensaje: 'Hemos enviado un email de confirmación, presiona en el enlace'
+        })
+
+    } catch (error) {
+        console.log(error);
+        // Manejar errores aquí
+        // Puedes redirigir a una página de error o hacer algo más según tus necesidades
+        return res.render('auth/registro', {
+            pagina: 'Crear cuenta',
+            csrfToken: req.csrfToken(),
+            errores: [{ msg: 'La subida de Imaen fallo, intene de nuevo' }],
+            usuario: {
+                nombre: req.body.nombre,
+                email: req.body.email
+            }
+        })
+    }
+}
+
 
 //Funcion que comprueba una cuenta
 const confirmar = async (req, res) => {
@@ -289,6 +385,8 @@ export {
     cerrarSesion,
     formularioRegistro,
     autenticar,
+    agregarImagen,
+    almacenarImagen,
     registrar,
     confirmar,
     formularioOlvidePassword,
