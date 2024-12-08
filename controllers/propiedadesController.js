@@ -2,7 +2,7 @@ import { validationResult } from 'express-validator'
 import { Precio, Categoria, Propiedad, Mensaje, Usuario } from '../models/index.js'
 import { unlink } from 'fs/promises'
 import { esVendedor, formatearFecha } from '../helpers/index.js'
-
+import { Sequelize } from 'sequelize'
 const admin = async (req, res) => {
 
     //Leer QueryString
@@ -349,29 +349,56 @@ const cambiarEstado = async (req, res) => {
 
 
 const mostrarPropiedad = async (req, res) => {
+    const { id } = req.params;
 
-    const { id } = req.params
-    //Comprobar que la propieadad exista
-
+    // Comprobar que la propiedad exista
     const propiedad = await Propiedad.findByPk(id, {
         include: [
             { model: Precio, as: 'precio' },
-            { model: Categoria, as: 'categoria' }
-        ]
-    })
+            { model: Categoria, as: 'categoria' },
+        ],
+    });
 
-    if (!propiedad  || !propiedad.publicado) {
-        return res.redirect('/404')
+    if (!propiedad || !propiedad.publicado) {
+        return res.redirect('/404');
     }
+
+    // Filtrar mensajes de la conversación específica
+ 
+    const mensajes = await Mensaje.findAll({
+        where: {
+            propiedadID: id,
+            conversacionID: {
+                [Sequelize.Op.in]: Sequelize.literal(`(
+                    SELECT DISTINCT conversacionID
+                    FROM Mensajes
+                    WHERE usuarioID = ${req.usuario.id}
+                    AND propiedadID = '${id}'
+                )`), 
+            },
+        },
+        include: [
+            {
+                model: Usuario.scope('eliminarPassword'),
+                as: 'usuario',
+            },
+        ],
+        order: [['createdAt', 'ASC']], 
+    });
+    
 
     res.render('propiedades/mostrar', {
         propiedad,
+        mensajes,
         pagina: propiedad.titulo,
         csrfToken: req.csrfToken(),
         usuario: req.usuario,
-        esVendedor: esVendedor(req.usuario?.id, propiedad.usuarioID)
-    })
-}
+        esVendedor: esVendedor(req.usuario?.id, propiedad.usuarioID),
+        enviado: false,
+        errores: [],
+    });
+};
+
 
 const enviarMensaje = async (req, res) => {
 
@@ -452,9 +479,52 @@ const verMensajes = async (req, res) => {
     res.render('propiedades/mensajes', {
         pagina: 'Mensajes',
         mensajes: propiedad.mensajes,
+        csrfToken: req.csrfToken(),
         formatearFecha
     })
 }
+const enviarMensajePropietario = async (req, res) => {
+    const { id } = req.params;
+
+    // Comprobar que la propiedad exista
+    const propiedad = await Propiedad.findByPk(id, {
+        include: [
+            { model: Precio, as: 'precio' },
+            { model: Categoria, as: 'categoria' },
+        ],
+    });
+
+    if (!propiedad) {
+        return res.redirect('/404');
+    }
+
+    // Validación
+    let resultado = validationResult(req);
+    if (!resultado.isEmpty()) {
+        return res.render('propiedades/mostrar', {
+            propiedad,
+            pagina: propiedad.titulo,
+            csrfToken: req.csrfToken(),
+            usuario: req.usuario,
+            esVendedor: esVendedor(req.usuario?.id, propiedad.usuarioID),
+            errores: resultado.array(),
+        });
+    }
+
+    const { mensaje, conversacionID } = req.body;
+    const { id: propiedadID } = req.params;
+    const { id: usuarioID } = req.usuario;
+
+    // Crear un nuevo mensaje con el conversacionID
+    await Mensaje.create({
+        mensaje,
+        propiedadID,
+        usuarioID,
+        conversacionID: conversacionID || null, // Usar conversacionID si existe
+    });
+
+    return res.redirect('/mis-propiedades')
+};
 
 export {
     admin,
@@ -468,6 +538,7 @@ export {
     mostrarPropiedad,
     enviarMensaje,
     verMensajes,
-    cambiarEstado
+    cambiarEstado,
+    enviarMensajePropietario
 }
 
